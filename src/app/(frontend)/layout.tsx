@@ -1,6 +1,8 @@
 import React from 'react'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
+import { PayloadSessionProvider } from 'payload-authjs/client'
+import { getPayloadSession } from 'payload-authjs'
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -13,14 +15,16 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main>{children}</main>
-        </ThemeProvider>
+        <PayloadSessionProvider session={await getPayloadSession()}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main>{children}</main>
+          </ThemeProvider>
+        </PayloadSessionProvider>
       </body>
     </html>
   )

@@ -6,6 +6,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { authjsPlugin } from 'payload-authjs'
+import { authConfig } from './auth.config'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -32,6 +34,9 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    authjsPlugin({
+      authjsConfig: authConfig,
+      enableLocalStrategy: true,
+    }),
   ],
 })
