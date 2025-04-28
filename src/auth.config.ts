@@ -1,9 +1,14 @@
 import type { NextAuthConfig } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 
 export const authConfig: NextAuthConfig = {
+  pages: {
+    signIn: '/auth/login',
+    // signOut: '/auth/logout',
+    // error: '/auth/error',
+    // verifyRequest: '/auth/verify-request',
+    // newUser: undefined,
+  },
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -21,20 +26,21 @@ export const authConfig: NextAuthConfig = {
           return null
         }
 
-        const payload = await getPayload({ config })
-
-        const result = await payload.login({
-          collection: 'users',
-          data: {
+        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/users/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
             email,
             password,
-          },
-          req,
+          }),
         })
 
-        if (!result.user) return null
+        const json = await res.json()
+        console.log('json', json)
 
-        return result.user
+        return json.user
       },
     }),
   ],
