@@ -23,6 +23,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { usePayloadSession } from 'payload-authjs/client'
+import { AuthProviders } from '@/components/auth-providers'
 
 const formSchema = z
   .object({
@@ -45,6 +48,13 @@ const formSchema = z
 
 export default function SignupPage() {
   const router = useRouter()
+  const { session } = usePayloadSession()
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push('/')
+    }
+  }, [session])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -142,6 +152,7 @@ export default function SignupPage() {
                   Log in
                 </Link>
               </div>
+              <AuthProviders />
             </CardFooter>
           </Card>
         </form>

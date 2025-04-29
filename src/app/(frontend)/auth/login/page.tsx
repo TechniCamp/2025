@@ -23,6 +23,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { signIn } from 'next-auth/react'
+import { usePayloadSession } from 'payload-authjs/client'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { AuthProviders } from '@/components/auth-providers'
 
 const formSchema = z.object({
   email: z.string(),
@@ -30,6 +34,15 @@ const formSchema = z.object({
 })
 
 export default function LoginPage() {
+  const { session } = usePayloadSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push('/')
+    }
+  }, [session])
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -103,6 +116,7 @@ export default function LoginPage() {
                   Sign up
                 </Link>
               </div>
+              <AuthProviders />
             </CardFooter>
           </Card>
         </form>
