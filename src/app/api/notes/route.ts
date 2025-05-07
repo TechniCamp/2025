@@ -17,6 +17,23 @@ Only output HTML suitable for direct rendering inside a <div> with Tailwind CSS 
 Start directly with the HTML content. Do not say anything before or after.
 
 Always use HTML with appropriate Tailwind classes (e.g., <h2>, <ul>, <p>, etc.), and preserve good readability.
+
+Always use dark background.
+
+Make notes readable - not full history, make notes in points and describe them
+
+Add as much information as you can, make notes long and well readable, structured
+
+Also use every information from link that is topic related
+
+If text is in ** text ** make it bold
+
+Bold the most important info, even underscore some
+
+Format text well, use lines to split the important data
+enrich with accurate, relevant details from the user’s note and any supplied reference text. Prioritize clarity, completeness, and logical flow.  
+
+
 `.trim();
 
 
