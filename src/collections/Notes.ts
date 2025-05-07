@@ -50,7 +50,7 @@ export const Notes: CollectionConfig = {
               role: 'system',
               content: `Note content: ${convertLexicalToPlaintext({ data: note.content })}`,
             },
-            ...history,
+            // ...history,
           ])
 
           await req.payload.update({

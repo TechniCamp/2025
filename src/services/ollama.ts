@@ -14,11 +14,12 @@ const SYSTEM_PROMPT = `
   IMPORTANT: Do not simulate tool call, use them directly.
   Do not send full tool response, make it short and concise.
 
-  Use the getDate tool for today date.
+  Use the getDate tool for today date if you need create presentation use the generatePresentation tool.
+  If you receive tool response, use it to generate the final response.
 ` as const
 
 // Initialize Ollama client
-const ollamaClient = new Ollama({
+export const ollamaClient = new Ollama({
   host: OLLAMA_HOST,
 })
 
@@ -103,12 +104,20 @@ export async function generateChatResponse(
     const toolResults = await handleToolCalls(response.message.tool_calls)
 
     // Add tool responses to message history
+    let withFile = false
     const toolMessages: Message[] = []
     for (const result of Object.values(toolResults)) {
+      if ((result as any).file) withFile = true
       toolMessages.push({
         role: 'tool',
         content: JSON.stringify(result),
       })
+    }
+
+    if (withFile) {
+      return {
+        messages: [...messages, ...toolMessages],
+      }
     }
 
     const nextResponse = await generateChatResponse(
