@@ -12,6 +12,7 @@ import { authConfig } from './auth.config'
 import { Users } from './collections/Users'
 import { Notes } from './collections/Notes'
 import { Categories } from './collections/Categories'
+import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,7 +24,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Notes, Categories],
+  collections: [Media, Users, Notes, Categories],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
