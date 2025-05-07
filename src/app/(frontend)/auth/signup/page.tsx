@@ -29,6 +29,11 @@ import { AuthProviders } from '@/components/auth-providers'
 
 const formSchema = z
   .object({
+    name: z
+      .string({
+        required_error: 'Name is required',
+      })
+      .min(2, 'Name must be at least 2 characters long'),
     email: z
       .string({
         required_error: 'Email is required',
@@ -52,13 +57,14 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (session?.user) {
-      router.push('/')
+      router.push('/app')
     }
   }, [session, router])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -88,7 +94,7 @@ export default function SignupPage() {
       return
     }
 
-    router.replace('/')
+    router.replace('/auth/login')
   }
 
   return (
@@ -127,6 +133,24 @@ export default function SignupPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="space-y-2">
+                      <FormLabel className="text-gray-200">Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="your name"
+                          {...field}
+                          className="bg-slate-800 border-slate-700 text-white placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-400" />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="email"
