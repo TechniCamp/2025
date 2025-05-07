@@ -150,6 +150,8 @@ export interface User {
 export interface Note {
   id: string;
   title: string;
+  author: string | User;
+  isPublic?: boolean | null;
   content: {
     root: {
       type: string;
@@ -165,8 +167,6 @@ export interface Note {
     };
     [k: string]: unknown;
   };
-  author: string | User;
-  isPublic?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -274,9 +274,9 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface NotesSelect<T extends boolean = true> {
   title?: T;
-  content?: T;
   author?: T;
   isPublic?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
