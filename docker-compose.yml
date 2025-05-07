@@ -1,3 +1,4 @@
+
 services:
   payload:
     image: node:20-alpine
@@ -24,6 +25,53 @@ services:
     logging:
       driver: none
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_WHISHPER_API: http://whishper:80   # build-time
+    container_name: next-app
+    environment:
+      - NEXT_PUBLIC_WHISHPER_API=http://whishper:80    # run-time
+    depends_on:
+      - whishper
+    ports:
+      - "3001:3001"
+    networks: [app-net]
+
+  translate:
+    container_name: whisper-libretranslate
+    image: libretranslate/libretranslate:latest
+    restart: unless-stopped
+    volumes:
+      - ./whishper_data/libretranslate/data:/home/libretranslate/.local/share
+      - ./whishper_data/libretranslate/cache:/home/libretranslate/.local/cache
+    env_file: .env
+    ports:
+      - "5001:5001"
+    environment:
+      LT_DISABLE_WEB_UI: "True"
+      LT_UPDATE_MODELS: "True"
+
+  whishper:
+    image: pluja/whishper:latest                       # pulled, not built
+    container_name: whishper
+    env_file: .env
+    volumes:
+      - ./whishper_data/uploads:/app/uploads
+      - ./whishper_data/libretranslate/data:/home/libretranslate/.local/share
+      - ./whishper_data/libretranslate/cache:/home/libretranslate/.local/cache
+    ports:
+      - "8082:80"
+    networks: [app-net]
+    restart: unless-stopped
+
+
 volumes:
   data:
   node_modules:
+
+networks:
+  app-net:
+    driver: bridge
