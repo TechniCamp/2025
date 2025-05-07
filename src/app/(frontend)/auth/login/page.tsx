@@ -41,7 +41,7 @@ export default function LoginPage() {
     console.log('session', session)
 
     if (session?.user) {
-      router.push('/')
+      router.push('/app')
     }
   }, [session, router])
 
@@ -55,7 +55,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     signIn('credentials', {
-      redirectTo: '/',
+      redirectTo: '/app',
       ...data,
     })
   }
