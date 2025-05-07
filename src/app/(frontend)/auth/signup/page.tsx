@@ -54,7 +54,7 @@ export default function SignupPage() {
     if (session?.user) {
       router.push('/')
     }
-  }, [session])
+  }, [session, router])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
