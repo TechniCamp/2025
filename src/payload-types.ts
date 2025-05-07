@@ -167,6 +167,15 @@ export interface Note {
     };
     [k: string]: unknown;
   };
+  chatMessages?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -277,6 +286,7 @@ export interface NotesSelect<T extends boolean = true> {
   author?: T;
   isPublic?: T;
   content?: T;
+  chatMessages?: T;
   updatedAt?: T;
   createdAt?: T;
 }

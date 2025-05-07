@@ -30,14 +30,15 @@ export const Notes: CollectionConfig = {
           return Response.json({ error: 'Invalid JSON in request body' }, { status: 400 })
         }
 
-        const { message, history = [] } = body as {
+        const { message } = body as {
           message: string
-          history: Message[]
         }
 
         if (!message) {
           return Response.json({ error: 'Message is required' }, { status: 400 })
         }
+
+        const history = (note.chatMessages || []) as Message[]
 
         try {
           const response = await generateChatResponse(message, [
@@ -51,6 +52,22 @@ export const Notes: CollectionConfig = {
             },
             ...history,
           ])
+
+          await req.payload.update({
+            collection: 'notes',
+            id,
+            data: {
+              chatMessages: [
+                ...history,
+                {
+                  role: 'user',
+                  content: message,
+                },
+                ...response.messages,
+              ],
+            },
+          })
+
           return Response.json({ response })
         } catch (error) {
           console.error('Error in chat API:', error)
@@ -81,6 +98,17 @@ export const Notes: CollectionConfig = {
       name: 'content',
       type: 'richText',
       required: true,
+    },
+    {
+      name: 'chatMessages',
+      type: 'json',
+      defaultValue: JSON.stringify([
+        {
+          role: 'assistant',
+          content:
+            'Hi! Do you want me to check your knowledge about this note? Or do you want to ask me something?',
+        },
+      ]),
     },
   ],
 }
