@@ -171,7 +171,7 @@ export interface Note {
   id: string;
   title: string;
   author: string | User;
-  isPublic?: boolean | null;
+  status?: ('private' | 'public' | 'link-only') | null;
   content: {
     root: {
       type: string;
@@ -325,7 +325,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface NotesSelect<T extends boolean = true> {
   title?: T;
   author?: T;
-  isPublic?: T;
+  status?: T;
   content?: T;
   chatMessages?: T;
   updatedAt?: T;
