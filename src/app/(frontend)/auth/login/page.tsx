@@ -38,10 +38,12 @@ export default function LoginPage() {
   const router = useRouter()
 
   useEffect(() => {
+    console.log('session', session)
+
     if (session?.user) {
       router.push('/')
     }
-  }, [session])
+  }, [session, router])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -108,7 +110,7 @@ export default function LoginPage() {
             <CardFooter className="flex flex-col space-y-4">
               <Button className="w-full">Log in</Button>
               <div className="text-center text-sm">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link
                   href="/auth/signup"
                   className="font-medium text-primary underline underline-offset-4 hover:text-primary/90"
