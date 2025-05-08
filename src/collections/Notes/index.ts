@@ -2,6 +2,7 @@ import type { Access, CollectionConfig } from 'payload'
 import { noteChatEndpoint } from './endpoints/chat'
 import { generateNoteEndpoint } from './endpoints/generate'
 import { Note } from '@/payload-types'
+import { presentationsEndpoint } from './endpoints/presentations';
 
 const noteAccess: Access<Note> = ({ data, req: { user } }) => {
   if (!user) return false
@@ -41,12 +42,7 @@ const authorAccess: Access<Note> = ({ req: { user } }) => {
 
 export const Notes: CollectionConfig = {
   slug: 'notes',
-  endpoints: [noteChatEndpoint, generateNoteEndpoint],
-  access: {
-    read: noteAccess,
-    update: authorAccess,
-    delete: authorAccess,
-  },
+  endpoints: [noteChatEndpoint, generateNoteEndpoint, presentationsEndpoint],
   fields: [
     {
       name: 'title',

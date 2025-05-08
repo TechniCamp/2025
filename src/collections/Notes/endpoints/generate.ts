@@ -3,7 +3,7 @@ import { Message } from 'ollama'
 import { Endpoint } from 'payload'
 import https from 'https'
 
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen3:14b'
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen3:8b'
 const SYSTEM_PROMPT = `
 You are an expert AI assistant that creates clean, structured learning content.
 

@@ -55,6 +55,7 @@ Respond STRICTLY in JSON like this:
 ]
 
 Ensure all HEX codes are valid, layout values are one of [title, bullets, image, comparison].
+Do not include any other text or explanation. Only output the JSON array of slides.
 `
 
   const response = await ollamaClient.chat({
@@ -63,13 +64,49 @@ Ensure all HEX codes are valid, layout values are one of [title, bullets, image,
     stream: false,
   })
 
-  const content: string = response.message.content
-  const jsonStart = content.indexOf('[')
-  const jsonEnd = content.lastIndexOf(']')
-  const jsonStr = content.substring(jsonStart, jsonEnd + 1)
+  try {
+    const content: string = response.message.content
+    // Try to find valid JSON in the response
+    const jsonStart = content.indexOf('[')
+    const jsonEnd = content.lastIndexOf(']')
 
-  const slides: SlideContent[] = JSON.parse(jsonStr)
-  return slides
+    if (jsonStart < 0 || jsonEnd < 0 || jsonEnd <= jsonStart) {
+      console.error('Invalid JSON structure in response:', content)
+      throw new Error('Could not find valid JSON array in the response')
+    }
+
+    const jsonStr = content.substring(jsonStart, jsonEnd + 1)
+
+    // Clean the JSON string to remove any non-JSON characters
+    const cleanJson = jsonStr.replace(/[^\x20-\x7E]/g, '').replace(/\\+([^"])/g, '\\$1')
+
+    try {
+      const slides: SlideContent[] = JSON.parse(cleanJson)
+      return slides
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError, 'for string:', cleanJson)
+      // Fallback to a basic slide if parsing fails
+      return [
+        {
+          layout: 'title',
+          title: 'Presentation',
+          backgroundColor: '#1e293b',
+          titleColor: '#ffffff',
+        },
+      ]
+    }
+  } catch (error) {
+    console.error('Error processing AI response:', error)
+    // Return a fallback slide
+    return [
+      {
+        layout: 'title',
+        title: 'Presentation',
+        backgroundColor: '#1e293b',
+        titleColor: '#ffffff',
+      },
+    ]
+  }
 }
 
 async function createPpt(
