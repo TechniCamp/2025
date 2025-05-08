@@ -5,24 +5,19 @@ import {
   FileText,
   Search,
   Plus,
-  Star,
-  ArrowRight,
-  Calendar,
   Filter,
   Globe,
   SortAsc,
   SortDesc,
   Clock,
   AlignLeft,
-  TagIcon,
-  Trash2,
-  Edit,
   FileQuestion,
   Lock,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useNotes } from '@/hooks/notes'
 import { usePayloadSession } from 'payload-authjs/client'
+import MyNote from '@/components/notes/my-note'
 
 export default function AllNotesPage() {
   const [activeFilter, setActiveFilter] = useState('all')
@@ -193,65 +188,7 @@ export default function AllNotesPage() {
           {filteredNotes.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredNotes.map((note) => (
-                <div
-                  key={note.id}
-                  className="group relative overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black opacity-95 group-hover:opacity-90 transition-opacity"></div>
-
-                  {/* Border gradient */}
-                  <div className="absolute inset-0 p-0.5 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  <div className="relative p-6 h-full flex flex-col">
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="bg-slate-800/70 p-2 rounded-lg">
-                        <FileText className="w-5 h-5 text-blue-500" />
-                      </div>
-                      <div className="flex space-x-2">
-                        {note.status === 'public' && (
-                          <div className="p-1 bg-slate-800/70 rounded-md">
-                            <Globe className="w-4 h-4 text-green-500" />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <h3 className="text-lg font-bold mb-2">{note.title}</h3>
-
-                    <div className="mt-auto">
-                      <div className="flex items-center text-xs text-gray-400 mb-3">
-                        <Calendar className="w-3 h-3 mr-1" />
-                        {new Date(note.createdAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex space-x-2">
-                          <Link
-                            href={`/notes/${note.id}/edit`}
-                            className="p-2 bg-slate-800 rounded-md hover:bg-slate-700 transition-colors"
-                          >
-                            <Edit className="w-4 h-4 text-blue-400" />
-                          </Link>
-                          <button className="p-2 bg-slate-800 rounded-md hover:bg-slate-700 transition-colors">
-                            <Trash2 className="w-4 h-4 text-red-400" />
-                          </button>
-                        </div>
-
-                        <Link
-                          href={`/notes/${note.id}`}
-                          className="flex items-center text-sm font-medium text-blue-400 group-hover:text-blue-300"
-                        >
-                          <span>Open</span>
-                          <ArrowRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <MyNote key={note.id} note={note} tools={true} />
               ))}
             </div>
           ) : (
@@ -288,7 +225,7 @@ export default function AllNotesPage() {
             thoughts, ideas, and learning materials in one place.
           </p>
           <Link
-            href="/notes/create"
+            href="/app/notes/create"
             className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
            text-white font-medium py-3 px-6 rounded-lg shadow-md 
            hover:shadow-lg transition-all"

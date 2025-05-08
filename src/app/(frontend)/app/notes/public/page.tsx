@@ -137,7 +137,7 @@ export default function PublicNotesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredNotes.map((note) => (
                 <Link
-                  href={`/notes/public/${note.id}`}
+                  href={`/app/notes/${note.id}`}
                   key={note.id}
                   className="group relative overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1"
                 >
@@ -216,7 +216,7 @@ export default function PublicNotesPage() {
             with the community by creating and publishing a note!
           </p>
           <Link
-            href="/notes/create"
+            href="/app/notes/create"
             className="inline-flex items-center bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 
            text-white font-medium py-3 px-6 rounded-lg shadow-md 
            hover:shadow-lg transition-all"

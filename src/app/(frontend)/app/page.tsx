@@ -146,7 +146,7 @@ export default function AppPage() {
           <div className="space-y-3">
             {publicNotes.map((note) => (
               <Link
-                href={`/notes/public/${note.id}`}
+                href={`/app/notes/${note.id}`}
                 key={note.id}
                 className="flex items-center p-3 pr-6 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
               >
@@ -179,7 +179,7 @@ export default function AppPage() {
               knowledge with the community!
             </p>
             <Link
-              href="/notes/create"
+              href="/app/notes/create"
               className="inline-flex items-center text-green-400 hover:text-green-300 transition-colors"
             >
               Create and publish a note
