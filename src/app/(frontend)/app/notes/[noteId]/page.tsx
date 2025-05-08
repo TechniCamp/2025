@@ -34,10 +34,12 @@ import {
 import { useRouter, useParams } from 'next/navigation'
 import { useDeleteNote, useNote, useUpdateNote } from '@/hooks/notes'
 import NoteChat from '@/components/notes/note-chat'
+import { usePayloadSession } from 'payload-authjs/client'
 
 export default function NoteViewPage() {
   const router = useRouter()
   const params = useParams()
+  const { session } = usePayloadSession()
   const noteId = params.noteId as string
   const note = useNote(noteId)
   const updateNote = useUpdateNote(noteId)
@@ -231,6 +233,8 @@ export default function NoteViewPage() {
     return { __html: html }
   }
 
+  if (!session) return null
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-900 to-slate-900 text-white flex items-center justify-center">
@@ -409,21 +413,25 @@ export default function NoteViewPage() {
                     )}
                   </div>
                 )}
-                <button
-                  onClick={askToDeleteNote}
-                  className="p-2 rounded-lg text-gray-400 hover:text-red-400"
-                  aria-label="Delete note"
-                  title="Delete note"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-md hover:shadow-lg transition-all"
-                >
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit Note
-                </button>
+                {note.data?.author.id === session.user.id && (
+                  <>
+                    <button
+                      onClick={askToDeleteNote}
+                      className="p-2 rounded-lg text-gray-400 hover:text-red-400"
+                      aria-label="Delete note"
+                      title="Delete note"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium shadow-md hover:shadow-lg transition-all"
+                    >
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit Note
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           )}
