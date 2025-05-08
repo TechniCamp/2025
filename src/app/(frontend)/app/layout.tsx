@@ -1,25 +1,21 @@
 'use client'
 
-import { LogOut, Menu, Plus, User, X } from 'lucide-react'
-import { signIn, signOut } from 'next-auth/react'
+import type React from 'react'
+
+import { LogOut, Menu, Plus, User, X, ChevronDown } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { usePayloadSession } from 'payload-authjs/client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { session } = usePayloadSession()
   const pathname = usePathname()
-
-  useEffect(() => {
-    if (!session) {
-      signIn('credentials', {
-        callbackUrl: `${window.location.origin}${pathname}`,
-      })
-    }
-  }, [pathname, session])
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false)
+  const [mobileMoreMenuOpen, setMobileMoreMenuOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-900 to-slate-900 text-white">
@@ -82,16 +78,44 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             >
               Public Notes
             </Link>
-            <Link
-              href="/app/flashcards"
-              className={`transition-colors ${
-                pathname === '/app/flashcards'
-                  ? 'text-blue-400 font-medium'
-                  : 'text-gray-300 hover:text-white'
-              }`}
-            >
-              Flashcards
-            </Link>
+            <div className="relative group">
+              <button
+                onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+                className={`flex items-center justify-between transition-colors ${
+                  pathname === '/app/flashcards' || pathname === '/app/scenarios'
+                    ? 'text-blue-400 font-medium'
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                More <ChevronDown className="w-4 h-4 ml-1" />
+              </button>
+              {moreMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-lg py-2 border border-slate-700 z-50">
+                  <Link
+                    href="/app/flashcards"
+                    className={`flex items-center w-full px-4 py-2 text-sm transition-colors ${
+                      pathname === '/app/flashcards'
+                        ? 'text-blue-400 font-medium'
+                        : 'text-gray-300 hover:bg-slate-700 hover:text-white'
+                    }`}
+                    onClick={() => setMoreMenuOpen(false)}
+                  >
+                    Flashcards
+                  </Link>
+                  <Link
+                    href="/app/scenarios"
+                    className={`flex items-center w-full px-4 py-2 text-sm transition-colors ${
+                      pathname === '/app/scenarios'
+                        ? 'text-blue-400 font-medium'
+                        : 'text-gray-300 hover:bg-slate-700 hover:text-white'
+                    }`}
+                    onClick={() => setMoreMenuOpen(false)}
+                  >
+                    Scenarios
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -153,16 +177,46 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               >
                 Public Notes
               </Link>
-              <Link
-                href="/app/flashcards"
-                className={`transition-colors ${
-                  pathname === '/app/flashcards'
-                    ? 'text-blue-400 font-medium'
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Flashcards
-              </Link>
+              <div className="flex flex-col">
+                <button
+                  onClick={() => setMobileMoreMenuOpen(!mobileMoreMenuOpen)}
+                  className={`flex items-center justify-between transition-colors ${
+                    pathname === '/app/flashcards' || pathname === '/app/scenarios'
+                      ? 'text-blue-400 font-medium'
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  More
+                  <ChevronDown
+                    className={`w-4 h-4 ml-1 transition-transform ${mobileMoreMenuOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {mobileMoreMenuOpen && (
+                  <div className="ml-4 mt-2 flex flex-col space-y-2">
+                    <Link
+                      href="/app/flashcards"
+                      className={`transition-colors ${
+                        pathname === '/app/flashcards'
+                          ? 'text-blue-400 font-medium'
+                          : 'text-gray-300 hover:text-white'
+                      }`}
+                    >
+                      Flashcards
+                    </Link>
+                    <Link
+                      href="/app/scenarios"
+                      className={`transition-colors ${
+                        pathname === '/app/scenarios'
+                          ? 'text-blue-400 font-medium'
+                          : 'text-gray-300 hover:text-white'
+                      }`}
+                    >
+                      Scenarios
+                    </Link>
+                  </div>
+                )}
+              </div>
               <Link
                 href="/app/notes/create"
                 className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
