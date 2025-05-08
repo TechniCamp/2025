@@ -117,6 +117,7 @@ Your mission:
 1 - Make whole note in the same great lookin style
 2 - Add as much real informations for current topic as you can, but make it related to prompted subjects
 3 - try making each point the same length
+/nothink
     `.trim()
 
     const messages: Message[] = [
