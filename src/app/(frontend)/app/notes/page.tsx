@@ -288,7 +288,7 @@ export default function AllNotesPage() {
             thoughts, ideas, and learning materials in one place.
           </p>
           <Link
-            href="/notes/create"
+            href="/app/notes/create"
             className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
            text-white font-medium py-3 px-6 rounded-lg shadow-md 
            hover:shadow-lg transition-all"
