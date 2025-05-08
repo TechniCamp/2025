@@ -67,8 +67,8 @@ export default function AppPage() {
             </div>
             <h3 className="text-xl font-bold mb-2">No notes yet</h3>
             <p className="text-gray-400 mb-6 max-w-md mx-auto">
-              You haven't created any notes yet. Start by creating your first note to capture your
-              ideas, knowledge, and insights.
+              You haven&apos;t created any notes yet. Start by creating your first note to capture
+              your ideas, knowledge, and insights.
             </p>
             <Link
               href="/app/notes/create"

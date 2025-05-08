@@ -5,13 +5,9 @@ import type React from 'react'
 import { useState, useRef, useEffect } from 'react'
 import {
   FileText,
-  ArrowLeft,
   Save,
   Globe,
   Lock,
-  Tag,
-  Plus,
-  X,
   Bold,
   Italic,
   List,
@@ -23,9 +19,7 @@ import {
   Quote,
   Code,
   Edit,
-  Eye,
   Calendar,
-  Star,
   Loader2,
   Share2,
   Trash2,

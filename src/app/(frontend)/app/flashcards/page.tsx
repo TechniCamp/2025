@@ -3,18 +3,7 @@
 import { useState, useEffect, useRef, MouseEventHandler } from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import {
-  ChevronLeft,
-  ChevronRight,
-  RotateCw,
-  BookOpen,
-  Book,
-  User,
-  Search,
-  Menu,
-  X,
-  Plus,
-} from 'lucide-react'
+import { ChevronLeft, ChevronRight, RotateCw, Book, Plus } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -23,7 +12,6 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { usePayloadSession } from 'payload-authjs/client'
 import { Note } from '@/payload-types'
 import { useNotes } from '@/hooks/notes'
 
@@ -39,13 +27,11 @@ export default function FlashcardApp() {
   const [isFlipped, setIsFlipped] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [animating, setAnimating] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [noteModalOpen, setNoteModalOpen] = useState(false)
   const notes = useNotes()
   const [activeTab, setActiveTab] = useState('all')
   const [categories, setCategories] = useState<string[]>([])
-  const { session } = usePayloadSession()
 
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -108,7 +94,7 @@ export default function FlashcardApp() {
     setIsGenerating(true)
     try {
       setTimeout(async () => {
-        let newCards = await fetchFlashcardsFromBackend(note.id)
+        const newCards = await fetchFlashcardsFromBackend(note.id)
         setFlashcards((prev) => [...prev, ...newCards.flashcards])
         setIsGenerating(false)
         setNoteModalOpen(false)

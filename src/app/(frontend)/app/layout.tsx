@@ -12,7 +12,6 @@ import { useState } from 'react'
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const { session } = usePayloadSession()
   const pathname = usePathname()
   const [moreMenuOpen, setMoreMenuOpen] = useState(false)
   const [mobileMoreMenuOpen, setMobileMoreMenuOpen] = useState(false)

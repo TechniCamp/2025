@@ -19,12 +19,12 @@ export default function GenerateNotePage() {
   const addLink = () => {
     // Basic URL validation
     try {
-      const url = new URL(linkInput)
+      new URL(linkInput)
       if (!links.includes(linkInput.trim())) {
         setLinks([...links, linkInput.trim()])
         setLinkInput('')
       }
-    } catch (e) {
+    } catch {
       alert('Please enter a valid URL (including http:// or https://)')
     }
   }

@@ -132,7 +132,7 @@ Your mission:
         stream: false,
       })
 
-      let extendedNote = (response.message?.content || '')
+      const extendedNote = (response.message?.content || '')
         .replace(/^<think>[\s\S]*?<\/think>/, '')
         .trim()
 
