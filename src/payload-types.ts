@@ -171,8 +171,22 @@ export interface Note {
   id: string;
   title: string;
   author: string | User;
-  status?: ('private' | 'public' | 'link-only') | null;
-  content: string;
+  isPublic?: boolean | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   chatMessages?:
     | {
         [k: string]: unknown;
@@ -311,7 +325,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface NotesSelect<T extends boolean = true> {
   title?: T;
   author?: T;
-  status?: T;
+  isPublic?: T;
   content?: T;
   chatMessages?: T;
   updatedAt?: T;
