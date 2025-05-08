@@ -46,7 +46,7 @@ export default function MyNote({ note, tools = false }: { note: Note; tools?: bo
         <h3 className="text-lg font-bold mb-2">{note.title}</h3>
 
         <div className={'mt-auto' + (tools ? '' : ' flex items-center justify-between')}>
-          <div className="flex items-center text-xs text-gray-400 mb-3">
+          <div className={'flex items-center text-xs text-gray-400' + (tools ? ' mb-3' : '')}>
             <Calendar className="w-3 h-3 mr-1" />
             {new Date(note.createdAt).toLocaleDateString('en-US', {
               year: 'numeric',

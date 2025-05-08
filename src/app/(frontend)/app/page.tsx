@@ -1,5 +1,6 @@
 'use client'
 
+import MyNote from '@/components/notes/my-note'
 import { useNotes } from '@/hooks/notes'
 import { FileText, Globe, Star, ArrowRight, BookOpen, Eye, Calendar, Plus } from 'lucide-react'
 import Link from 'next/link'
@@ -56,49 +57,7 @@ export default function AppPage() {
         {userNotes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {userNotes.map((note) => (
-              <Link
-                href={`/notes/${note.id}`}
-                key={note.id}
-                className="group relative overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black opacity-95 group-hover:opacity-90 transition-opacity"></div>
-
-                {/* Border gradient */}
-                <div className="absolute inset-0 p-0.5 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                <div className="relative p-6 h-full flex flex-col">
-                  <div className="flex justify-between items-start mb-3">
-                    <div className="bg-slate-800/70 p-2 rounded-lg">
-                      <FileText className="w-5 h-5 text-blue-500" />
-                    </div>
-                    <div className="flex space-x-2">
-                      {note.status === 'public' && (
-                        <div className="p-1 bg-slate-800/70 rounded-md">
-                          <Globe className="w-4 h-4 text-green-500" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <h3 className="text-lg font-bold mb-2">{note.title}</h3>
-
-                  <div className="mt-auto flex items-center justify-between">
-                    <div className="flex items-center text-xs text-gray-400">
-                      <Calendar className="w-3 h-3 mr-1" />
-                      {new Date(note.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </div>
-
-                    <div className="flex items-center text-sm font-medium text-blue-400 group-hover:text-blue-300">
-                      <span>Open</span>
-                      <ArrowRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              <MyNote key={note.id} note={note} />
             ))}
           </div>
         ) : (

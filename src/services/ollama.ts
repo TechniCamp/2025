@@ -116,7 +116,7 @@ export async function generateChatResponse(
 
     if (withFile) {
       return {
-        messages: [...messages, ...toolMessages],
+        messages: [...toolMessages],
       }
     }
 
