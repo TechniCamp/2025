@@ -27,7 +27,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-slate-900/80 py-4 border-b border-slate-800/70">
         <div className="container mx-auto px-6 flex justify-between items-center">
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="text-gray-300 hover:text-white"
@@ -44,7 +44,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-6 flex-1 justify-end mr-8">
+          <div className="hidden lg:flex items-center space-x-6 flex-1 justify-end mr-8">
             <Link
               href="/app/notes/create"
               className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
@@ -82,6 +82,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             >
               Public Notes
             </Link>
+            <Link
+              href="/app/flashcards"
+              className={`transition-colors ${
+                pathname === '/app/flashcards'
+                  ? 'text-blue-400 font-medium'
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              Flashcards
+            </Link>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -111,7 +121,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         {/* Mobile menu expanded */}
         {menuOpen && (
-          <div className="md:hidden bg-slate-900 py-4 px-6 mt-4 rounded-lg shadow-lg">
+          <div className="lg:hidden bg-slate-900 py-4 px-6 mt-4 rounded-lg shadow-lg fixed w-full">
             <div className="flex flex-col space-y-4">
               <Link
                 href="/app"
@@ -142,6 +152,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 }`}
               >
                 Public Notes
+              </Link>
+              <Link
+                href="/app/flashcards"
+                className={`transition-colors ${
+                  pathname === '/app/flashcards'
+                    ? 'text-blue-400 font-medium'
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                Flashcards
               </Link>
               <Link
                 href="/app/notes/create"
