@@ -62,6 +62,8 @@ export async function POST(request: Request) {
     // Clean up the response if it contains code blocks
     const htmlRegex = /```html\s*([\s\S]*?)\s*```/;
     const match = extendedNote.match(htmlRegex);
+
+    extendedNote = extendedNote.replace(/\bbg-white\b/g, '');
     
     if (match && match[1]) {
       extendedNote = match[1].trim();

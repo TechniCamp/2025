@@ -1,10 +1,11 @@
 import type { CollectionConfig } from 'payload'
 import { noteChatEndpoint } from './endpoints/chat'
 import { generateNoteEndpoint } from './endpoints/generate'
+import { presentationsEndpoint } from './endpoints/presentations';
 
 export const Notes: CollectionConfig = {
   slug: 'notes',
-  endpoints: [noteChatEndpoint, generateNoteEndpoint],
+  endpoints: [noteChatEndpoint, generateNoteEndpoint, presentationsEndpoint],
   fields: [
     {
       name: 'title',
