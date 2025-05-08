@@ -20,7 +20,7 @@ interface Note {
   } | string;
 }
 
-export default function NotesScenarioGenerator() {
+export default function PresentationsScenariosGenerator() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -30,7 +30,6 @@ export default function NotesScenarioGenerator() {
   const [generatedScenario, setGeneratedScenario] = useState<string>('');
   const [customPrompt, setCustomPrompt] = useState<string>('');
 
-  // Fetch notes when component mounts
   useEffect(() => {
     fetchNotes();
   }, []);

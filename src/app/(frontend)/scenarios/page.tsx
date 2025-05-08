@@ -1,4 +1,4 @@
-import NotesScenarioGenerator from '@/components/NotesScenarioGenerator';
+import NotesScenarioGenerator from '@/components/PresentationsScenariosGenerator';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
