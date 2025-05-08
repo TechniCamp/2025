@@ -55,6 +55,11 @@ const sampleNotes = [
     title: "Rozwój aplikacji mobilnych",
     content: "Tworzenie aplikacji na urządzenia mobilne wymaga znajomości specyficznych technologii...",
   },
+  {
+    id: "11",
+    title: "WW2",
+    content: "",
+  },
 ]
 
 export default function FlashcardApp() {
