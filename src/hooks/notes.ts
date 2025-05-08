@@ -1,9 +1,9 @@
 import { Note, User } from '@/payload-types'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export function useNotes() {
   return useQuery({
-    queryKey: ['my-notes'],
+    queryKey: ['notes'],
     queryFn: async (): Promise<(Note & { author: User })[]> => {
       const response = await fetch('/api/notes?depth=1')
       const data = await response.json()
@@ -14,7 +14,7 @@ export function useNotes() {
 
 export function useNote(id: string) {
   return useQuery({
-    queryKey: ['note', id],
+    queryKey: ['notes', id],
     queryFn: async (): Promise<Note & { author: User }> => {
       const response = await fetch(`/api/notes/${id}?depth=1`)
       const data = await response.json()
@@ -24,6 +24,7 @@ export function useNote(id: string) {
 }
 
 export function useUpdateNote(id: string) {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (data: Partial<Note>) => {
       const response = await fetch(`/api/notes/${id}`, {
@@ -38,11 +39,14 @@ export function useUpdateNote(id: string) {
       }
       return response.json()
     },
-    mutationKey: ['update-note', id],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notes'] })
+    },
   })
 }
 
 export function useGenerateNote() {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (data: {
       note: string
@@ -61,11 +65,14 @@ export function useGenerateNote() {
       }
       return response.json()
     },
-    mutationKey: ['create-note'],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notes'] })
+    },
   })
 }
 
 export function useDeleteNote(id: string) {
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async () => {
       const response = await fetch(`/api/notes/${id}`, {
@@ -76,6 +83,8 @@ export function useDeleteNote(id: string) {
       }
       return response.json()
     },
-    mutationKey: ['delete-note', id],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notes'] })
+    },
   })
 }

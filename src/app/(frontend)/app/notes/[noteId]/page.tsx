@@ -31,10 +31,9 @@ import {
   Trash2,
   ChevronDown,
 } from 'lucide-react'
-import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
-import { useNote, useUpdateNote } from '@/hooks/notes'
-import NoteChat from '@/app/components/note-chat'
+import { useDeleteNote, useNote, useUpdateNote } from '@/hooks/notes'
+import NoteChat from '@/components/notes/note-chat'
 
 export default function NoteViewPage() {
   const router = useRouter()
@@ -42,15 +41,13 @@ export default function NoteViewPage() {
   const noteId = params.noteId as string
   const note = useNote(noteId)
   const updateNote = useUpdateNote(noteId)
+  const deleteNote = useDeleteNote(noteId)
 
   const [isLoading, setIsLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
-  const [isStarred, setIsStarred] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [originalContent, setOriginalContent] = useState('')
-  const [tagInput, setTagInput] = useState('')
-  const [tags, setTags] = useState<string[]>([])
   const [isSaving, setIsSaving] = useState(false)
   const [createdDate, setCreatedDate] = useState('')
   const [updatedDate, setUpdatedDate] = useState('')
@@ -86,24 +83,6 @@ export default function NoteViewPage() {
     setCreatedDate(note.data.createdAt)
     setUpdatedDate(note.data.updatedAt)
   }, [note.data])
-
-  const addTag = () => {
-    if (tagInput.trim() !== '' && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()])
-      setTagInput('')
-    }
-  }
-
-  const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove))
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      addTag()
-    }
-  }
 
   const insertTextAtCursor = (textBefore: string, textAfter = '') => {
     const textarea = textareaRef.current
@@ -194,20 +173,15 @@ export default function NoteViewPage() {
     setIsEditing(false)
   }
 
-  const deleteNote = async () => {
+  const askToDeleteNote = async () => {
     if (!confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
       return
     }
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await deleteNote.mutateAsync()
 
-      // In a real app, you would send a delete request to your API
-      console.log(`Deleting note ${noteId}`)
-
-      // Navigate back to notes list
-      router.push('/notes')
+      router.push('/app/notes')
     } catch (error) {
       console.error('Error deleting note:', error)
       alert('Failed to delete note. Please try again.')
@@ -436,7 +410,7 @@ export default function NoteViewPage() {
                   </div>
                 )}
                 <button
-                  onClick={deleteNote}
+                  onClick={askToDeleteNote}
                   className="p-2 rounded-lg text-gray-400 hover:text-red-400"
                   aria-label="Delete note"
                   title="Delete note"
