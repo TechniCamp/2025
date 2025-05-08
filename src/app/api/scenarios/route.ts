@@ -1,24 +1,36 @@
 import { NextResponse } from 'next/server';
-import { Ollama, Message } from "ollama";
-
-const OLLAMA_HOST = process.env.OLLAMA_HOST || 'https://ollama4.kkhost.pl/';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen3:8b';
-
-const ollamaClient = new Ollama({
-  host: OLLAMA_HOST,
-});
+import { Message } from "ollama";
+import { ollamaClient } from '@/services/ollama';
 
 const SYSTEM_PROMPT = `
-  You are a helpful assistant. Your task is to create scenarios for given learning materials.
-  You will be providing a detailed description of learning materials and scenarios for teachers to use in their classes.
-  Make your response clear, well-structured, and uses appropriate formatting for html component with tailwind so serewer can put it directly into existing page.tsx.
-  Return no more than data in the response, no other text.
-  Do not include any explanations or additional comments.
+You are an expert educational content creator specialized in transforming notes into comprehensive learning materials and teaching scenarios.
+
+Your task is to take the provided note and create a detailed, well-structured learning scenario that a teacher can use in their classroom.
+
+Include the following sections:
+1. Learning Objectives - Clear, measurable goals
+2. Target Audience - Age/grade level and prerequisites
+3. Materials Needed - List of required resources
+4. Lesson Structure - Organized timeline with activities
+   - Introduction/Hook (5-10 min)
+   - Main Activities (25-30 min)
+   - Assessment/Reflection (10-15 min)
+5. Additional Resources - Optional extensions or references
+
+Format your response as clean HTML with appropriate tags (h1, h2, h3, p, ul, li, etc.) and use Tailwind CSS classes for basic styling.
+
+Do not include any markdown code blocks, explanations about what you're doing, or any text outside the actual learning materials.
 ` as const;
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen3:14b'
+
+interface RequestBody {
+  note: string;
+}
 
 export async function POST(request: Request) {
   try {
-    const { note } = await request.json();
+    const body = await request.json() as RequestBody;
+    const { note } = body;
     
     if (!note || typeof note !== 'string' || note.trim() === '') {
       return NextResponse.json(
@@ -31,9 +43,11 @@ export async function POST(request: Request) {
       { role: "system", content: SYSTEM_PROMPT },
       { 
         role: "user", 
-        content: `Please create learning materials with additional relevant details:
+        content: `Create a detailed learning scenario based on this note content:
+        
         "${note}"
-        /nothink` 
+        
+        Format your entire response as clean HTML with Tailwind CSS classes that can be directly inserted into a React component. Do not use Markdown formatting or code blocks.` 
       }
     ];
 
@@ -45,16 +59,18 @@ export async function POST(request: Request) {
 
     let extendedNote = response.message?.content || '';
 
-    console.log('Extended note:', extendedNote);
-
+    // Clean up the response if it contains code blocks
     const htmlRegex = /```html\s*([\s\S]*?)\s*```/;
     const match = extendedNote.match(htmlRegex);
     
     if (match && match[1]) {
       extendedNote = match[1].trim();
     }
-
-    console.log('Extracted HTML:', extendedNote);
+    
+    // If the response doesn't contain HTML tags, wrap it in basic HTML
+    if (!extendedNote.includes('<')) {
+      extendedNote = `<div class="space-y-4">${extendedNote}</div>`;
+    }
 
     if (!extendedNote) {
       return NextResponse.json(

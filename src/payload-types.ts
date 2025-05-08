@@ -70,7 +70,6 @@ export interface Config {
     media: Media;
     users: User;
     notes: Note;
-    categories: Category;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -80,7 +79,6 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     notes: NotesSelect<false> | NotesSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -171,22 +169,8 @@ export interface Note {
   id: string;
   title: string;
   author: string | User;
-  isPublic?: boolean | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
+  status?: ('private' | 'public' | 'link-only') | null;
+  content: string;
   chatMessages?:
     | {
         [k: string]: unknown;
@@ -196,16 +180,6 @@ export interface Note {
     | number
     | boolean
     | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: string;
-  label: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -227,10 +201,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'notes';
         value: string | Note;
-      } | null)
-    | ({
-        relationTo: 'categories';
-        value: string | Category;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -325,18 +295,9 @@ export interface UsersSelect<T extends boolean = true> {
 export interface NotesSelect<T extends boolean = true> {
   title?: T;
   author?: T;
-  isPublic?: T;
+  status?: T;
   content?: T;
   chatMessages?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
- */
-export interface CategoriesSelect<T extends boolean = true> {
-  label?: T;
   updatedAt?: T;
   createdAt?: T;
 }
