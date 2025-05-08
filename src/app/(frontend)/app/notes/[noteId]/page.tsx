@@ -225,17 +225,14 @@ export default function NoteViewPage() {
       .replace(/\*\*(.*?)\*\*/g, '<span class="font-bold">$1</span>')
       .replace(/\*(.*?)\*/g, '<span class="italic">$1</span>')
       // Lists
-      .replace(/^- (.*$)/gm, '<div class="list-disc list-inside"><div>$1</div></div>')
+      .replace(/^- (.*$)/gm, '<ul class="list-disc list-inside"><li>$1</li></ul>')
       .replace(/<\/div>\n<div>/g, '</div><div>')
-      .replace(/<div>(.+?)(?=<\/div>|$)/g, '<div class="list-disc list-inside"><div>$1</div></div>')
+      .replace(/<div>(.+?)(?=<\/div>|$)/g, '<ul class="list-disc list-inside"><li>$1</li></ul>')
       .replace(/<\/div>\n<div>/g, '')
       // Numbered lists
-      .replace(/^\d+\. (.*$)/gm, '<div class="list-decimal list-inside"><div>$1</div></div>')
+      .replace(/^\d+\. (.*$)/gm, '<ol class="list-decimal list-inside"><li>$1</li></ol>')
       .replace(/<\/div>\n<div>/g, '</div><div>')
-      .replace(
-        /<div>(.+?)(?=<\/div>|$)/g,
-        '<div class="list-decimal list-inside"><div>$1</div></div>',
-      )
+      .replace(/<div>(.+?)(?=<\/div>|$)/g, '<ol class="list-decimal list-inside"><li>$1</li></ol>')
       .replace(/<\/div>\n<div>/g, '')
       // Blockquotes
       .replace(
@@ -253,7 +250,7 @@ export default function NoteViewPage() {
         '<pre class="bg-gray-800 text-gray-200 p-4 rounded"><code>$1</code></pre>',
       )
       // Line breaks
-      .replace(/\n/g, '<br>')
+      .replace(/\n{2}/g, '<br>')
       // Tripple dash
       .replace(/---/g, '<hr class="border-t border-gray-700 my-4" />')
 
