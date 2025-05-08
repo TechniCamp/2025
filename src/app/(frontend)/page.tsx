@@ -115,7 +115,10 @@ export default function HomePage() {
   }
 
   const SubjectCard = ({ subject }: { subject: Subject }) => (
-    <div className="group relative overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+    <Link
+      href="/app"
+      className="group relative overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black opacity-95 group-hover:opacity-90 transition-opacity"></div>
       <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-br transition-opacity duration-300"></div>
 
@@ -143,7 +146,7 @@ export default function HomePage() {
           <ChevronRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
         </div>
       </div>
-    </div>
+    </Link>
   )
 
   return (
@@ -221,19 +224,14 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-            <button
+            <Link
+              href="/app"
               className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 
                        text-white font-semibold py-3 px-8 rounded-lg shadow-lg
                        transition-all transform hover:scale-105 w-full md:w-auto justify-center"
             >
               Start Creating <ChevronRight className="ml-2 w-5 h-5" />
-            </button>
-            <button
-              className="inline-flex items-center bg-slate-800 text-white font-semibold py-3 px-8 rounded-lg 
-                       shadow-lg border border-slate-700 transition-all w-full md:w-auto justify-center"
-            >
-              See Examples
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -289,7 +287,8 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
             {toolsData.map((tool) => (
-              <div
+              <Link
+                href="/app"
                 key={tool.id}
                 className="group relative overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
               >
@@ -320,7 +319,7 @@ export default function HomePage() {
                     <ChevronRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -408,13 +407,14 @@ export default function HomePage() {
                 Join us today and discover how AI can streamline your educational material creation.
                 Generate your first resource completely free!
               </p>
-              <button
+              <Link
+                href="/app"
                 className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 
                          text-white font-semibold py-3 px-6 rounded-lg shadow-lg
                          transition-all transform hover:scale-105"
               >
-                Start Free Trial <ChevronRight className="ml-2 w-5 h-5" />
-              </button>
+                Start Now <ChevronRight className="ml-2 w-5 h-5" />
+              </Link>
             </div>
           </div>
         </div>
