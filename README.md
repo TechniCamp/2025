@@ -1,67 +1,110 @@
-# Payload Blank Template
+# AI EduPlatform
+*An AI-powered educational platform for creating, managing, and transforming learning materials.*
 
-This template comes configured with the bare minimum to get started on anything you need.
+---
 
-## Quick start
+## Table of Contents
+1. [Project Overview](#project-overview)  
+2. [Key Features](#key-features)  
+3. [Getting Started](#getting-started)  
+4. [Application Structure](#application-structure)  
+5. [Technologies](#technologies)  
+6. [Contributing](#contributing)  
+7. [License](#license)  
+8. [Support](#support)
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+---
 
-## Quick Start - local setup
+## Project Overview
+**AI EduPlatform** is a comprehensive learning tool that leverages artificial intelligence to help educators and students create, organize, and enhance their educational materials. The platform brings together note-taking, content generation, and multimedia processing to streamline every step of the learning journey.
 
-To spin up this template locally, follow these steps:
+---
 
-### Clone
+## Key Features
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+### 📝 Smart Notes System
+- Create, edit, and manage notes with rich formatting  
+- Organize notes with tags and categories  
+- Set visibility (private, public, or link-only)  
+- AI-powered note generation and enhancement  
 
-### Development
+### 🎴 Flashcards
+- Convert notes to interactive flashcards  
+- Study with spaced-repetition scheduling  
+- Customize categories and difficulty levels  
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+### 🎓 Educational Content Generation
+- Transform notes into structured learning scenarios  
+- Generate professional presentations from notes  
+- Produce comprehensive study materials automatically  
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+### 🌐 Web Scraping
+- Extract content from educational websites  
+- Convert scraped content to formatted notes  
+- Edit and customize imported material  
 
-#### Docker (Optional)
+### 🎬 Video Transcription (coming in future)
+- Convert video lectures to text  
+- Support multiple video formats  
+- Edit and save transcriptions as notes  
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+---
 
-To do so, follow these steps:
+## Getting Started
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+### Prerequisites
+- **Node.js** (v18 or later)  
+- **MongoDB** *or* **Docker**  
+- **PNPM** package manager  
 
-## How it works
+### Installation
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/PAtreju/IdeaLab
+   ```
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+2. **Set environment variables**  
+   ```bash
+   cp .env.example .env
+   ```
 
-### Collections
+3. **Install dependencies**  
+   ```bash
+   pnpm install
+   ```
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+4. **Start the development server**  
+   ```bash
+   pnpm dev
+   ```  
+   Then open <http://localhost:3000> in your browser.
 
-- #### Users (Authentication)
+### Using Docker (Optional)
+1. Ensure **Docker** and **Docker Compose** are installed.  
+2. Run the containers:  
+   ```bash
+   docker compose up --build
+   ```  
+3. Visit <http://localhost:3000>.
 
-  Users are auth-enabled collections that have access to the admin panel.
+---
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+## Application Structure
+``` 
+src/
+├─ app/          # Front-end pages & layouts
+├─ components/   # Reusable UI components
+├─ hooks/        # Custom React hooks
+├─ collections/  # Payload CMS collection definitions
+└─ services/     # Service integrations (Ollama, etc.)
+``` 
 
-- #### Media
+---
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
-
-### Docker
-
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
-
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
-
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+## Technologies
+- **Frontend:** Next.js, React, Tailwind CSS  
+- **Backend / CMS:** Payload CMS, Node.js  
+- **Database:** MongoDB  
+- **AI Integration:** Ollama (locally hosted models)  
+- **Containerization:** Docker  
