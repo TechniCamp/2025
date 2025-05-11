@@ -59,47 +59,47 @@
 
 ### Installation
 1. **Clone the repository**  
-   ``bash
+   ```bash
    git clone https://github.com/TechniCamp/2025
    cd ./2025/
-   ``
+   ```
 
 2. **Set environment variables**  
-   ``bash
+   ```bash
    cp .env.example .env
    # → edit .env with your values
-   ``
+   ```
 
 3. **Install dependencies**  
-   ``bash
+   ```bash
    pnpm install
-   ``
+   ```
 
 4. **Start the development server**  
-   ``bash
+   ```bash
    pnpm dev
-   ``  
+   ```  
    Then open <http://localhost:3000> in your browser.
 
 ### Using Docker (Optional)
 1. Ensure **Docker** and **Docker Compose** are installed.  
 2. Run the containers:  
-   ``bash
+   ```bash
    docker compose up --build
-   ``  
+   ```  
 3. Visit <http://localhost:3000>.
 
 ---
 
 ## Application Structure
-`` 
+``` 
 src/
 ├─ app/          # Front-end pages & layouts
 ├─ components/   # Reusable UI components
 ├─ hooks/        # Custom React hooks
 ├─ collections/  # Payload CMS collection definitions
 └─ services/     # Service integrations (Ollama, etc.)
-`` 
+``` 
 
 ---
 
